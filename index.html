@@ -299,6 +299,30 @@
   .var-panel-save { align-self: flex-end; background: var(--blue); border: none; border-radius: 6px; color: #fff; font-size: 0.78rem; font-weight: 600; padding: 7px 16px; cursor: pointer; transition: background 0.15s; }
   .var-panel-save:hover { background: var(--blue-hover); }
 
+  /* SAVED LINKS SIDEBAR */
+  .links-sidebar {
+    position: fixed; top: 0; right: 0; width: 220px; height: 100vh;
+    background: var(--blue); border-left: 1px solid var(--blue-hover);
+    box-shadow: -2px 0 12px rgba(91,114,176,0.2);
+    display: flex; flex-direction: column;
+    z-index: 200; padding: 20px 14px 16px; gap: 10px;
+  }
+  .links-sidebar h3 { font-size: 0.72rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; flex-shrink: 0; }
+  .links-sidebar-input-row { display: flex; gap: 6px; flex-shrink: 0; }
+  .links-sidebar-input-row input { flex: 1; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; background: rgba(255,255,255,0.15); color: #fff; font-size: 0.78rem; padding: 6px 8px; outline: none; min-width: 0; transition: border-color 0.15s; }
+  .links-sidebar-input-row input:focus { border-color: #fff; box-shadow: 0 0 0 2px rgba(255,255,255,0.2); }
+  .links-sidebar-input-row input::placeholder { color: rgba(255,255,255,0.6); font-style: italic; }
+  .links-sidebar-add-btn { background: #fff; border: none; border-radius: 6px; color: var(--blue); font-size: 0.78rem; font-weight: 700; padding: 6px 10px; cursor: pointer; flex-shrink: 0; transition: background 0.15s; }
+  .links-sidebar-add-btn:hover { background: var(--blue-light); }
+  .links-sidebar-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+  .links-sidebar-empty { font-size: 0.75rem; color: rgba(255,255,255,0.5); font-style: italic; text-align: center; padding: 16px 0; }
+  .sidebar-link-item { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 7px; padding: 7px 9px; transition: background 0.15s; }
+  .sidebar-link-item:hover { background: rgba(255,255,255,0.22); }
+  .sidebar-link-anchor { flex: 1; font-size: 0.75rem; color: #fff; text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+  .sidebar-link-anchor:hover { text-decoration: underline; }
+  .sidebar-link-del { background: none; border: none; color: rgba(255,255,255,0.4); font-size: 0.9rem; cursor: pointer; flex-shrink: 0; padding: 0 1px; line-height: 1; transition: color 0.15s; }
+  .sidebar-link-del:hover { color: #fff; }
+
   .section-drop-zone { height: 5px; transition: height 0.15s, background 0.15s; margin: 0 8px; border-radius: 4px; }
   .section-drop-zone.active { height: 26px; background: var(--blue-light); border: 1.5px dashed var(--blue); }
 
@@ -469,6 +493,16 @@
   </div>
 </div>
 
+<!-- SAVED LINKS SIDEBAR -->
+<div class="links-sidebar">
+  <h3>🔗 Saved Links</h3>
+  <div class="links-sidebar-input-row">
+    <input type="text" id="sidebar-link-input" placeholder="Paste a link...">
+    <button class="links-sidebar-add-btn" onclick="addSidebarLink()">+</button>
+  </div>
+  <div class="links-sidebar-list" id="sidebar-link-list"></div>
+</div>
+
 <div class="toast" id="toast">✓ Restored from auto-backup</div>
 
 <script>
@@ -519,6 +553,8 @@ function init() {
 
   COLS.forEach(function(col){ render(col); });
   document.getElementById('ref-link-input').addEventListener('keydown', function(e){ if (e.key==='Enter') addRefLink(); });
+  document.getElementById('sidebar-link-input').addEventListener('keydown', function(e){ if (e.key==='Enter') addSidebarLink(); });
+  renderSidebarLinks();
   if (recovered) showToast('✓ Restored from auto-backup');
 }
 
@@ -1142,8 +1178,49 @@ function setupRefDropzone() {
   };
 }
 
-document.addEventListener('keydown', function(e){
-  if (e.key === 'Escape') {
+// ── SAVED LINKS SIDEBAR ──────────────────────────────────────────────────
+
+function renderSidebarLinks() {
+  var list = document.getElementById('sidebar-link-list');
+  list.innerHTML = '';
+  var links = data.sidebarLinks || [];
+  if (!links.length) {
+    var empty = document.createElement('div');
+    empty.className = 'links-sidebar-empty';
+    empty.textContent = 'No links yet — paste one above.';
+    list.appendChild(empty);
+    return;
+  }
+  links.forEach(function(lnk, i) {
+    var item = document.createElement('div');
+    item.className = 'sidebar-link-item';
+    var a = document.createElement('a');
+    a.className = 'sidebar-link-anchor';
+    a.href = lnk.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    a.textContent = lnk.label;
+    a.title = lnk.url;
+    var del = document.createElement('button');
+    del.className = 'sidebar-link-del'; del.innerHTML = '&times;'; del.title = 'Remove';
+    del.onclick = (function(idx){ return function(){ data.sidebarLinks.splice(idx,1); renderSidebarLinks(); autoSave(); }; })(i);
+    item.appendChild(a); item.appendChild(del);
+    list.appendChild(item);
+  });
+}
+
+function addSidebarLink() {
+  var inp = document.getElementById('sidebar-link-input');
+  var url = inp.value.trim();
+  if (!url) return;
+  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+  if (!data.sidebarLinks) data.sidebarLinks = [];
+  var label = url.replace(/^https?:\/\/(www\.)?/,'').split('/')[0];
+  data.sidebarLinks.push({ url: url, label: label });
+  inp.value = '';
+  renderSidebarLinks();
+  autoSave();
+}
+
+document.addEventListener('keydown', function(e){  if (e.key === 'Escape') {
     if (document.getElementById('body-preview-bg').classList.contains('open')) closeBodyPreview();
     else if (document.getElementById('ref-modal-bg').classList.contains('open')) closeRefModal();
     else if (document.getElementById('ref-overlay').classList.contains('open')) closeRefs();
