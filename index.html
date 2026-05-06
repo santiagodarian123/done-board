@@ -311,6 +311,7 @@
   .links-sidebar.collapsed { width: 36px; padding: 20px 6px 16px; overflow: hidden; }
   .links-sidebar.collapsed .links-sidebar-input-row,
   .links-sidebar.collapsed .links-sidebar-list,
+  .links-sidebar.collapsed #sidebar-section-select,
   .links-sidebar.collapsed .links-sidebar-title-text { display: none; }
   .links-sidebar-header { display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
   .links-sidebar-toggle { background: none; border: none; color: #fff; font-size: 0.85rem; cursor: pointer; padding: 0; line-height: 1; opacity: 0.8; transition: opacity 0.15s; flex-shrink: 0; }
@@ -330,6 +331,14 @@
   .sidebar-link-anchor:hover { text-decoration: underline; }
   .sidebar-link-del { background: none; border: none; color: rgba(255,255,255,0.4); font-size: 0.9rem; cursor: pointer; flex-shrink: 0; padding: 0 1px; line-height: 1; transition: color 0.15s; }
   .sidebar-link-del:hover { color: #fff; }
+  .sidebar-section-header { display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 4px 0 2px; border-bottom: 1px solid rgba(255,255,255,0.2); margin-bottom: 4px; user-select: none; }
+  .sidebar-section-name { font-size: 0.7rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; flex: 1; }
+  .sidebar-section-chevron { font-size: 0.6rem; color: rgba(255,255,255,0.6); transition: transform 0.15s; }
+  .sidebar-section-chevron.closed { transform: rotate(-90deg); }
+  .sidebar-section-del { background: none; border: none; color: rgba(255,255,255,0.3); font-size: 0.85rem; cursor: pointer; padding: 0; line-height: 1; transition: color 0.15s; }
+  .sidebar-section-del:hover { color: #fff; }
+  .sidebar-section-links { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; padding-left: 4px; }
+  .sidebar-section-links.collapsed { display: none; }
 
   .section-drop-zone { height: 5px; transition: height 0.15s, background 0.15s; margin: 0 8px; border-radius: 4px; }
   .section-drop-zone.active { height: 26px; background: var(--blue-light); border: 1.5px dashed var(--blue); }
@@ -346,12 +355,15 @@
 <!-- TOP BAR -->
 <div class="top-bar">
   <div>
-    <h1>TO-DO BOARD</h1>
+    <h1 id="board-title">3 days TO-DO Board</h1>
     <p id="date-label">Wednesday, May 6, 2026</p>
   </div>
-  <button class="save-btn" onclick="saveInPlace()" title="Save (Ctrl+S)">
-    💾 Save
-  </button>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+    <div style="font-family:var(--font);font-size:0.72rem;color:#6b7280;font-style:italic;">Save your work in your local drive</div>
+    <button class="save-btn" onclick="saveInPlace()" title="Save (Ctrl+S)">
+      💾 Save
+    </button>
+  </div>
   <div style="font-family:var(--font);font-size:0.68rem;color:#6b7280;text-align:right;line-height:1.6;">
     <div style="color:#374151;font-weight:600;">Contributor: Darian Pulgarin</div>
     <a href="https://www.linkedin.com/in/santiagodarian" target="_blank" rel="noopener noreferrer" style="color:#5B72B0;text-decoration:none;font-weight:500;">linkedin.com/in/santiagodarian</a>
@@ -507,9 +519,14 @@
     <h3 class="links-sidebar-title-text">🔗 Saved Links</h3>
     <button class="links-sidebar-toggle" id="sidebar-toggle-btn" onclick="toggleSidebar()" title="Collapse">◀</button>
   </div>
-  <div class="links-sidebar-input-row">
+  <div class="links-sidebar-input-row links-sidebar-title-text">
     <input type="text" id="sidebar-link-input" placeholder="Paste a link...">
     <button class="links-sidebar-add-btn" onclick="addSidebarLink()">+</button>
+  </div>
+  <select id="sidebar-section-select" class="links-sidebar-title-text" style="width:100%;background:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:6px;color:var(--ink);font-size:0.75rem;padding:5px 8px;outline:none;cursor:pointer;"></select>
+  <div class="links-sidebar-input-row links-sidebar-title-text" style="gap:6px;">
+    <input type="text" id="sidebar-section-input" placeholder="+ New section name...">
+    <button class="links-sidebar-add-btn" onclick="addSidebarSection()" title="Add section">▸</button>
   </div>
   <div class="links-sidebar-list" id="sidebar-link-list"></div>
 </div>
@@ -539,6 +556,9 @@ function autoSave() {
 
 function init() {
   var now = new Date();
+
+  // days counter
+  // date labels
   var fmt = function(d) { return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}); };
   var d1 = new Date(now); d1.setDate(now.getDate()+1);
   var d2 = new Date(now); d2.setDate(now.getDate()+2);
@@ -565,6 +585,7 @@ function init() {
   COLS.forEach(function(col){ render(col); });
   document.getElementById('ref-link-input').addEventListener('keydown', function(e){ if (e.key==='Enter') addRefLink(); });
   document.getElementById('sidebar-link-input').addEventListener('keydown', function(e){ if (e.key==='Enter') addSidebarLink(); });
+  document.getElementById('sidebar-section-input').addEventListener('keydown', function(e){ if (e.key==='Enter') addSidebarSection(); });
   renderSidebarLinks();
   if (recovered) showToast('✓ Restored from auto-backup');
 }
@@ -1202,28 +1223,81 @@ function toggleSidebar() {
 function renderSidebarLinks() {
   var list = document.getElementById('sidebar-link-list');
   list.innerHTML = '';
-  var links = data.sidebarLinks || [];
-  if (!links.length) {
+  if (!data.sidebarLinks) data.sidebarLinks = [];
+  if (!data.sidebarSections) data.sidebarSections = [];
+
+  // update section dropdown
+  var sel = document.getElementById('sidebar-section-select');
+  if (sel) {
+    var prev = sel.value;
+    sel.innerHTML = '<option value="">— No section —</option>';
+    data.sidebarSections.forEach(function(sec) {
+      var opt = document.createElement('option');
+      opt.value = sec.id; opt.textContent = sec.name;
+      sel.appendChild(opt);
+    });
+    sel.value = prev || '';
+  }
+
+  // unsectioned links
+  var unsectioned = data.sidebarLinks.filter(function(l){ return !l.section; });
+  if (!unsectioned.length && !data.sidebarSections.length) {
     var empty = document.createElement('div');
     empty.className = 'links-sidebar-empty';
     empty.textContent = 'No links yet — paste one above.';
     list.appendChild(empty);
-    return;
   }
-  links.forEach(function(lnk, i) {
-    var item = document.createElement('div');
-    item.className = 'sidebar-link-item';
-    var a = document.createElement('a');
-    a.className = 'sidebar-link-anchor';
-    a.href = lnk.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
-    a.textContent = lnk.label;
-    a.title = lnk.url;
-    var del = document.createElement('button');
-    del.className = 'sidebar-link-del'; del.innerHTML = '&times;'; del.title = 'Remove';
-    del.onclick = (function(idx){ return function(){ data.sidebarLinks.splice(idx,1); renderSidebarLinks(); autoSave(); }; })(i);
-    item.appendChild(a); item.appendChild(del);
-    list.appendChild(item);
+  unsectioned.forEach(function(lnk) {
+    list.appendChild(makeSidebarLinkEl(lnk));
   });
+
+  // sections
+  data.sidebarSections.forEach(function(sec, si) {
+    var secLinks = data.sidebarLinks.filter(function(l){ return l.section === sec.id; });
+
+    var hdr = document.createElement('div');
+    hdr.className = 'sidebar-section-header';
+    var chev = document.createElement('span');
+    chev.className = 'sidebar-section-chevron' + (sec.collapsed ? ' closed' : '');
+    chev.textContent = '▼';
+    var name = document.createElement('span');
+    name.className = 'sidebar-section-name';
+    name.textContent = sec.name;
+    var sdel = document.createElement('button');
+    sdel.className = 'sidebar-section-del'; sdel.innerHTML = '&times;'; sdel.title = 'Delete section';
+    sdel.onclick = (function(i){ return function(e){ e.stopPropagation();
+      if (!confirm('Delete section "' + data.sidebarSections[i].name + '" and its links?')) return;
+      var sid = data.sidebarSections[i].id;
+      data.sidebarLinks = data.sidebarLinks.filter(function(l){ return l.section !== sid; });
+      data.sidebarSections.splice(i, 1);
+      renderSidebarLinks(); autoSave();
+    }; })(si);
+    hdr.appendChild(chev); hdr.appendChild(name); hdr.appendChild(sdel);
+    hdr.onclick = (function(i){ return function(){ data.sidebarSections[i].collapsed = !data.sidebarSections[i].collapsed; renderSidebarLinks(); autoSave(); }; })(si);
+    list.appendChild(hdr);
+
+    var linksWrap = document.createElement('div');
+    linksWrap.className = 'sidebar-section-links' + (sec.collapsed ? ' collapsed' : '');
+    secLinks.forEach(function(lnk){ linksWrap.appendChild(makeSidebarLinkEl(lnk)); });
+    list.appendChild(linksWrap);
+  });
+}
+
+function makeSidebarLinkEl(lnk) {
+  var item = document.createElement('div');
+  item.className = 'sidebar-link-item';
+  var a = document.createElement('a');
+  a.className = 'sidebar-link-anchor';
+  a.href = lnk.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+  a.textContent = lnk.label; a.title = lnk.url;
+  var del = document.createElement('button');
+  del.className = 'sidebar-link-del'; del.innerHTML = '&times;'; del.title = 'Remove';
+  del.onclick = function(e){ e.stopPropagation();
+    data.sidebarLinks = data.sidebarLinks.filter(function(l){ return l !== lnk; });
+    renderSidebarLinks(); autoSave();
+  };
+  item.appendChild(a); item.appendChild(del);
+  return item;
 }
 
 function addSidebarLink() {
@@ -1233,10 +1307,21 @@ function addSidebarLink() {
   if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
   if (!data.sidebarLinks) data.sidebarLinks = [];
   var label = url.replace(/^https?:\/\/(www\.)?/,'').split('/')[0];
-  data.sidebarLinks.push({ url: url, label: label });
+  var sel = document.getElementById('sidebar-section-select');
+  var section = sel ? (sel.value || null) : null;
+  data.sidebarLinks.push({ url: url, label: label, section: section });
   inp.value = '';
-  renderSidebarLinks();
-  autoSave();
+  renderSidebarLinks(); autoSave();
+}
+
+function addSidebarSection() {
+  var inp = document.getElementById('sidebar-section-input');
+  var name = inp.value.trim();
+  if (!name) return;
+  if (!data.sidebarSections) data.sidebarSections = [];
+  data.sidebarSections.push({ id: uid(), name: name, collapsed: false });
+  inp.value = '';
+  renderSidebarLinks(); autoSave();
 }
 
 document.addEventListener('keydown', function(e){  if (e.key === 'Escape') {
