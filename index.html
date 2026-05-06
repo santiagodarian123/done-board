@@ -306,7 +306,15 @@
     box-shadow: -2px 0 12px rgba(91,114,176,0.2);
     display: flex; flex-direction: column;
     z-index: 200; padding: 20px 14px 16px; gap: 10px;
+    transition: width 0.2s ease;
   }
+  .links-sidebar.collapsed { width: 36px; padding: 20px 6px 16px; overflow: hidden; }
+  .links-sidebar.collapsed .links-sidebar-input-row,
+  .links-sidebar.collapsed .links-sidebar-list,
+  .links-sidebar.collapsed .links-sidebar-title-text { display: none; }
+  .links-sidebar-header { display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .links-sidebar-toggle { background: none; border: none; color: #fff; font-size: 0.85rem; cursor: pointer; padding: 0; line-height: 1; opacity: 0.8; transition: opacity 0.15s; flex-shrink: 0; }
+  .links-sidebar-toggle:hover { opacity: 1; }
   .links-sidebar h3 { font-size: 0.72rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; flex-shrink: 0; }
   .links-sidebar-input-row { display: flex; gap: 6px; flex-shrink: 0; }
   .links-sidebar-input-row input { flex: 1; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; background: rgba(255,255,255,0.15); color: #fff; font-size: 0.78rem; padding: 6px 8px; outline: none; min-width: 0; transition: border-color 0.15s; }
@@ -494,8 +502,11 @@
 </div>
 
 <!-- SAVED LINKS SIDEBAR -->
-<div class="links-sidebar">
-  <h3>🔗 Saved Links</h3>
+<div class="links-sidebar" id="links-sidebar">
+  <div class="links-sidebar-header">
+    <h3 class="links-sidebar-title-text">🔗 Saved Links</h3>
+    <button class="links-sidebar-toggle" id="sidebar-toggle-btn" onclick="toggleSidebar()" title="Collapse">◀</button>
+  </div>
   <div class="links-sidebar-input-row">
     <input type="text" id="sidebar-link-input" placeholder="Paste a link...">
     <button class="links-sidebar-add-btn" onclick="addSidebarLink()">+</button>
@@ -1176,6 +1187,14 @@ function setupRefDropzone() {
       renderRefList(); COLS.forEach(function(c){ render(c); });
     }
   };
+}
+
+function toggleSidebar() {
+  var sidebar = document.getElementById('links-sidebar');
+  var btn = document.getElementById('sidebar-toggle-btn');
+  var collapsed = sidebar.classList.toggle('collapsed');
+  btn.textContent = collapsed ? '▶' : '◀';
+  btn.title = collapsed ? 'Expand' : 'Collapse';
 }
 
 // ── SAVED LINKS SIDEBAR ──────────────────────────────────────────────────
