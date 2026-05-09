@@ -44,8 +44,8 @@
   /* SEARCH SIDEBAR (left) */
   .search-sidebar {
     position: fixed; top: 0; left: 0; width: 220px; height: 100vh;
-    background: #f3f4f6; border-right: 1px solid #e5e7eb;
-    box-shadow: 2px 0 8px rgba(0,0,0,0.06);
+    background: #8E5C00; border-right: 1px solid #7a4f00;
+    box-shadow: 2px 0 8px rgba(142,92,0,0.2);
     display: flex; flex-direction: column;
     z-index: 200; padding: 20px 14px 16px; gap: 10px;
     transition: width 0.2s ease;
@@ -54,24 +54,24 @@
   .search-sidebar.collapsed .search-sidebar-body,
   .search-sidebar.collapsed .search-sidebar-title-text { display: none; }
   .search-sidebar-header { display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
-  .search-sidebar-toggle { background: none; border: none; color: #374151; font-size: 0.85rem; cursor: pointer; padding: 0; line-height: 1; opacity: 0.7; transition: opacity 0.15s; flex-shrink: 0; }
+  .search-sidebar-toggle { background: none; border: none; color: #ffffff; font-size: 0.85rem; cursor: pointer; padding: 0; line-height: 1; opacity: 0.85; transition: opacity 0.15s; flex-shrink: 0; }
   .search-sidebar-toggle:hover { opacity: 1; }
-  .search-sidebar h3 { font-size: 0.72rem; font-weight: 700; color: #374151; text-transform: uppercase; letter-spacing: 1px; flex-shrink: 0; }
+  .search-sidebar h3 { font-size: 0.72rem; font-weight: 700; color: #ffffff; text-transform: uppercase; letter-spacing: 1px; flex-shrink: 0; }
   .search-sidebar-body { display: flex; flex-direction: column; gap: 8px; flex: 1; overflow: hidden; min-height: 0; }
-  .search-sidebar-body input { width: 100%; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; color: #111827; font-size: 0.78rem; padding: 6px 8px; outline: none; transition: border-color 0.15s; flex-shrink: 0; }
-  .search-sidebar-body input:focus { border-color: #9ca3af; box-shadow: 0 0 0 2px rgba(156,163,175,0.2); }
-  .search-sidebar-body input::placeholder { color: #9ca3af; font-style: italic; }
+  .search-sidebar-body input { width: 100%; border: 1px solid #7a4f00; border-radius: 6px; background: #7a4f00; color: #ffffff; font-size: 0.78rem; padding: 6px 8px; outline: none; transition: border-color 0.15s; flex-shrink: 0; }
+  .search-sidebar-body input:focus { border-color: #ffffff; box-shadow: 0 0 0 2px rgba(255,255,255,0.15); }
+  .search-sidebar-body input::placeholder { color: rgba(255,255,255,0.5); font-style: italic; }
   .search-results { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; min-height: 0; }
-  .search-empty { font-size: 0.75rem; color: #9ca3af; font-style: italic; text-align: center; padding: 16px 0; }
-  .search-result-item { background: #fff; border: 1px solid #e5e7eb; border-radius: 7px; padding: 8px 10px; cursor: pointer; transition: background 0.15s; flex-shrink: 0; }
-  .search-result-item:hover { background: #f3f4f6; border-color: #d1d5db; }
-  .search-result-item.overdue { border-left: 3px solid #f97316; background: #fff7ed; }
-  .search-result-subject { font-size: 0.75rem; font-weight: 600; color: #111827; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .search-result-meta { font-size: 0.68rem; color: #6b7280; margin-top: 2px; }
-  .search-result-overdue { font-size: 0.65rem; font-weight: 700; color: #f97316; margin-top: 4px; padding-top: 4px; border-top: 1px solid #fed7aa; }
+  .search-empty { font-size: 0.75rem; color: #ffffff; font-style: italic; text-align: center; padding: 16px 0; }
+  .search-result-item { background: #7a4f00; border: 1px solid #6b4400; border-radius: 7px; padding: 8px 10px; cursor: pointer; transition: background 0.15s; flex-shrink: 0; }
+  .search-result-item:hover { background: #6b4400; border-color: #ffffff; }
+  .search-result-item.overdue { border-left: 3px solid #ff6b6b; background: #7a3000; }
+  .search-result-subject { font-size: 0.75rem; font-weight: 600; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .search-result-meta { font-size: 0.68rem; color: rgba(255,255,255,0.7); margin-top: 2px; }
+  .search-result-overdue { font-size: 0.65rem; font-weight: 700; color: #ffb3b3; margin-top: 4px; padding-top: 4px; border-top: 1px solid rgba(255,255,255,0.2); }
   /* overdue pane */
-  .overdue-pane { display: flex; flex-direction: column; flex-shrink: 0; height: 45%; min-height: 0; border-top: 2px solid #e5e7eb; padding-top: 10px; gap: 6px; }
-  .overdue-pane-header { font-size: 0.72rem; font-weight: 700; color: #f97316; text-transform: uppercase; letter-spacing: 1px; flex-shrink: 0; }
+  .overdue-pane { display: flex; flex-direction: column; flex-shrink: 0; height: 45%; min-height: 0; border-top: 2px solid #7a4f00; padding-top: 10px; gap: 6px; }
+  .overdue-pane-header { font-size: 0.72rem; font-weight: 700; color: #ffffff; text-transform: uppercase; letter-spacing: 1px; flex-shrink: 0; }
   .overdue-pane-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; min-height: 0; }
 
   /* TOP BAR */
@@ -133,25 +133,35 @@
   }
   .add-section-row button:hover { background: var(--blue-light); border-color: var(--blue); color: var(--blue); border-style: solid; }
 
-  .section-block { border-bottom: 1px solid var(--rule); animation: fadeIn 0.2s ease; }
+  .section-block { border-bottom: 1px solid var(--rule); }
   @keyframes fadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+  .section-block .section-header { animation: fadeIn 0.2s ease; }
 
   @keyframes sectionShake {
     0%,100% { transform: translateX(0); }
-    15%      { transform: translateX(-5px); }
-    30%      { transform: translateX(5px); }
-    45%      { transform: translateX(-4px); }
-    60%      { transform: translateX(4px); }
-    75%      { transform: translateX(-2px); }
-    90%      { transform: translateX(2px); }
+    20%      { transform: translateX(-5px); }
+    40%      { transform: translateX(5px); }
+    60%      { transform: translateX(-3px); }
+    80%      { transform: translateX(3px); }
   }
-  .section-block.timer-warning {
-    animation: sectionShake 0.6s ease;
+  .section-block.timer-warn-10 {
     border-left: 4px solid #f97316;
+    animation: sectionShake 1.4s ease-in-out infinite;
   }
-  .section-block.timer-warning .section-header {
+  .section-block.timer-warn-10 .section-header {
+    animation: none;
     border: 2px solid #f97316;
-    box-shadow: 0 0 10px rgba(249,115,22,0.4);
+    box-shadow: 0 0 10px rgba(249,115,22,0.35);
+    border-radius: 6px;
+  }
+  .section-block.timer-warn-5 {
+    border-left: 4px solid #ef4444;
+    animation: sectionShake 1.0s ease-in-out infinite;
+  }
+  .section-block.timer-warn-5 .section-header {
+    animation: none;
+    border: 2px solid #ef4444;
+    box-shadow: 0 0 14px rgba(239,68,68,0.45);
     border-radius: 6px;
   }
 
@@ -331,7 +341,19 @@
   .ref-body-btn:hover { background: var(--blue-light); color: var(--blue); border-color: var(--blue); }
   .ref-empty { text-align: center; color: #d1d5db; font-style: italic; padding: 24px 0; }
 
-  /* BODY PREVIEW MODAL */
+  .ref-note-wrap { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .ref-note-label { font-size: 0.78rem; font-weight: 600; color: #6b7280; letter-spacing: 0.5px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+  .ref-note-label span { font-weight: 400; font-style: italic; color: #9ca3af; text-transform: none; letter-spacing: 0; font-size: 0.73rem; }
+  .ref-note-textarea { width: 100%; min-height: 140px; resize: vertical; border: 1.5px solid #e5e7eb; border-radius: 8px; padding: 12px 14px; font-size: 0.88rem; color: #111827; background: #fafafa; outline: none; transition: border-color 0.15s, box-shadow 0.15s; font-family: var(--font); line-height: 1.6; }
+  .ref-note-textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(91,114,176,0.12); background: #fff; }
+  .ref-note-preview { width: 100%; min-height: 140px; border: 1.5px solid #e5e7eb; border-radius: 8px; padding: 12px 14px; font-size: 0.88rem; color: #111827; background: #fff; font-family: var(--font); line-height: 1.6; white-space: pre-wrap; word-break: break-word; display: none; }
+  .ref-note-preview.active { display: block; }
+  .ref-note-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .ref-note-save { background: var(--blue); border: none; border-radius: 6px; color: #fff; font-size: 0.78rem; font-weight: 600; padding: 7px 18px; cursor: pointer; transition: background 0.15s; }
+  .ref-note-save:hover { background: var(--blue-hover); }
+  .ref-note-edit { background: none; border: 1.5px solid #d1d5db; border-radius: 6px; color: #6b7280; font-size: 0.78rem; font-weight: 600; padding: 7px 18px; cursor: pointer; transition: all 0.15s; }
+  .ref-note-edit:hover { border-color: var(--blue); color: var(--blue); }
+  .ref-note-saved { font-size: 0.72rem; color: #9ca3af; font-style: italic; }
   .body-preview-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 700; align-items: center; justify-content: center; }
   .body-preview-bg.open { display: flex; }
   .body-preview-modal { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 24px 28px; width: 640px; max-width: 95vw; max-height: 90vh; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 8px 40px rgba(0,0,0,0.15); }
@@ -403,13 +425,13 @@
   .toast.show { transform: translateX(-50%) translateY(0); }
 </style>
 </head>
-<body>
+<body style="padding-left: 56px;">
 
 <!-- TOP BAR -->
 <div class="top-bar">
   <div>
     <h1 id="board-title">3 days TO-DO Board</h1>
-    <p id="date-label">Wednesday, May 6, 2026</p>
+    <p id="date-label">Sunday, May 10, 2026</p>
   </div>
   <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
     <div style="font-family:var(--font);font-size:0.72rem;color:#6b7280;font-style:italic;">Save your work in your local drive</div>
@@ -434,10 +456,10 @@
   </div>
   <div class="search-sidebar-body">
     <input type="text" id="search-input" placeholder="Search emails, sender..." oninput="runSearch()">
-    <div class="search-results" id="search-results"></div>
+    <div class="search-results" id="search-results"><div class="search-empty">No emails yet.</div></div>
     <div class="overdue-pane" id="overdue-pane">
-      <div class="overdue-pane-header" id="overdue-pane-header">⚠️ Overdue</div>
-      <div class="overdue-pane-list" id="overdue-list"></div>
+      <div class="overdue-pane-header" id="overdue-pane-header">⚠️ Overdue (0)</div>
+      <div class="overdue-pane-list" id="overdue-list"><div class="search-empty">No overdue emails.</div></div>
     </div>
   </div>
 </div>
@@ -449,11 +471,11 @@
       <div class="rings"></div>
       <div class="col-header">
         <div class="col-dot"></div>
-        <div class="col-header-text"><h2>Today</h2><p id="date-today">Wed, May 6</p></div>
+        <div class="col-header-text"><h2>Today</h2><p id="date-today">Sun, May 10</p></div>
         <span class="col-stats" id="stats-today">0/0</span>
       </div>
       <div class="add-section-row"><button onclick="addSection('today')">＋ Add Section</button></div>
-      <div id="sections-today"><div class="section-drop-zone"></div><div class="section-block" draggable="true"><div class="section-header"><button class="collapse-btn " title="Collapse">▼</button><input class="section-title-input" type="text" placeholder="Section title..." maxlength="120"><div class="section-time"><input type="time" title="Start time"><span>–</span><input type="time" title="End time"></div><span class="section-meta"></span><button class="section-del" title="Delete section">×</button><button class="move-btn" title="Move to Tomorrow">→ Tomorrow</button><button class="move-btn" title="Move to After">→ After</button><button class="ref-tab-btn" title="References">📎</button><button class="importance-btn imp-none" title="Set importance"></button></div><ul class="task-list"></ul><div class="add-task-row"><input type="text" id="ti-today-mot6omge09cq" placeholder="Add task..." maxlength="200"><button title="Add task">+</button></div></div><div class="section-drop-zone"></div></div>
+      <div id="sections-today"><div class="section-drop-zone"></div><div class="section-block" data-sid="moyye4t1hu49" draggable="true"><div class="section-header"><button class="collapse-btn " title="Collapse">▼</button><input class="section-title-input" type="text" placeholder="Section title..." maxlength="120"><div class="section-time"><input type="time" title="Start time"><span>–</span><input type="time" title="End time"></div><span class="section-meta"></span><button class="section-del" title="Delete section">×</button><button class="move-btn" title="Move to Tomorrow">→ Tomorrow</button><button class="move-btn" title="Move to After">→ After</button><button class="ref-tab-btn" title="References">📎</button><button class="importance-btn imp-none" title="Set importance"></button></div><ul class="task-list"></ul><div class="add-task-row"><input type="text" id="ti-today-moyye4t1hu49" placeholder="Add task..." maxlength="200"><button title="Add task">+</button></div></div><div class="section-drop-zone"></div></div>
       <div class="empty-msg" id="empty-today" style="display: none;">No sections yet</div>
       <div class="global-stats" id="gstats-today">1 section  ·  0 of 0 done</div>
     </div>
@@ -464,11 +486,11 @@
       <div class="rings"></div>
       <div class="col-header">
         <div class="col-dot"></div>
-        <div class="col-header-text"><h2>Tomorrow</h2><p id="date-tomorrow">Thu, May 7</p></div>
+        <div class="col-header-text"><h2>Tomorrow</h2><p id="date-tomorrow">Mon, May 11</p></div>
         <span class="col-stats" id="stats-tomorrow">0/0</span>
       </div>
       <div class="add-section-row"><button onclick="addSection('tomorrow')">＋ Add Section</button></div>
-      <div id="sections-tomorrow"><div class="section-drop-zone"></div><div class="section-block" draggable="true"><div class="section-header"><button class="collapse-btn " title="Collapse">▼</button><input class="section-title-input" type="text" placeholder="Section title..." maxlength="120"><div class="section-time"><input type="time" title="Start time"><span>–</span><input type="time" title="End time"></div><span class="section-meta"></span><button class="section-del" title="Delete section">×</button><button class="move-btn" title="Move to Today">→ Today</button><button class="move-btn" title="Move to After">→ After</button><button class="ref-tab-btn" title="References">📎</button><button class="importance-btn imp-none" title="Set importance"></button></div><ul class="task-list"></ul><div class="add-task-row"><input type="text" id="ti-tomorrow-mot6n9qb1jgk" placeholder="Add task..." maxlength="200"><button title="Add task">+</button></div></div><div class="section-drop-zone"></div></div>
+      <div id="sections-tomorrow"><div class="section-drop-zone"></div><div class="section-block" data-sid="moyye68ykwub" draggable="true" style=""><div class="section-header"><button class="collapse-btn " title="Collapse">▼</button><input class="section-title-input" type="text" placeholder="Section title..." maxlength="120"><div class="section-time"><input type="time" title="Start time"><span>–</span><input type="time" title="End time"></div><span class="section-meta"></span><button class="section-del" title="Delete section">×</button><button class="move-btn" title="Move to Today">→ Today</button><button class="move-btn" title="Move to After">→ After</button><button class="ref-tab-btn" title="References">📎</button><button class="importance-btn imp-none" title="Set importance"></button></div><ul class="task-list"></ul><div class="add-task-row"><input type="text" id="ti-tomorrow-moyye68ykwub" placeholder="Add task..." maxlength="200"><button title="Add task">+</button></div></div><div class="section-drop-zone"></div></div>
       <div class="empty-msg" id="empty-tomorrow" style="display: none;">No sections yet</div>
       <div class="global-stats" id="gstats-tomorrow">1 section  ·  0 of 0 done</div>
     </div>
@@ -479,11 +501,11 @@
       <div class="rings"></div>
       <div class="col-header">
         <div class="col-dot"></div>
-        <div class="col-header-text"><h2>After Tomorrow</h2><p id="date-after">Fri, May 8</p></div>
+        <div class="col-header-text"><h2>After Tomorrow</h2><p id="date-after">Tue, May 12</p></div>
         <span class="col-stats" id="stats-after">0/0</span>
       </div>
       <div class="add-section-row"><button onclick="addSection('after')">＋ Add Section</button></div>
-      <div id="sections-after"><div class="section-drop-zone"></div><div class="section-block" draggable="true"><div class="section-header"><button class="collapse-btn " title="Collapse">▼</button><input class="section-title-input" type="text" placeholder="Section title..." maxlength="120"><div class="section-time"><input type="time" title="Start time"><span>–</span><input type="time" title="End time"></div><span class="section-meta"></span><button class="section-del" title="Delete section">×</button><button class="move-btn" title="Move to Today">→ Today</button><button class="move-btn" title="Move to Tomorrow">→ Tomorrow</button><button class="ref-tab-btn" title="References">📎</button><button class="importance-btn imp-none" title="Set importance"></button></div><ul class="task-list"></ul><div class="add-task-row"><input type="text" id="ti-after-mot6nb64frzl" placeholder="Add task..." maxlength="200"><button title="Add task">+</button></div></div><div class="section-drop-zone"></div></div>
+      <div id="sections-after"><div class="section-drop-zone"></div><div class="section-block" data-sid="moyye5oa32fx" draggable="true"><div class="section-header"><button class="collapse-btn " title="Collapse">▼</button><input class="section-title-input" type="text" placeholder="Section title..." maxlength="120"><div class="section-time"><input type="time" title="Start time"><span>–</span><input type="time" title="End time"></div><span class="section-meta"></span><button class="section-del" title="Delete section">×</button><button class="move-btn" title="Move to Today">→ Today</button><button class="move-btn" title="Move to Tomorrow">→ Tomorrow</button><button class="ref-tab-btn" title="References">📎</button><button class="importance-btn imp-none" title="Set importance"></button></div><ul class="task-list"></ul><div class="add-task-row"><input type="text" id="ti-after-moyye5oa32fx" placeholder="Add task..." maxlength="200"><button title="Add task">+</button></div></div><div class="section-drop-zone"></div></div>
       <div class="empty-msg" id="empty-after" style="display: none;">No sections yet</div>
       <div class="global-stats" id="gstats-after">1 section  ·  0 of 0 done</div>
     </div>
@@ -494,7 +516,7 @@
 <div class="ref-overlay" id="ref-overlay">
   <div class="ref-topbar">
     <button class="ref-back-btn" onclick="closeRefs()">← Back</button>
-    <div class="ref-title" id="ref-overlay-title">References <span>UNTITLED SECTION</span></div>
+    <div class="ref-title" id="ref-overlay-title">References &nbsp;<span>A</span></div>
     <button class="save-btn" onclick="saveInPlace()" title="Save (Ctrl+S)">💾 Save</button>
   </div>
   <div class="ref-body">
@@ -508,6 +530,18 @@
       <button onclick="addRefLink()">+ Add Link</button>
     </div>
     <div class="ref-list" id="ref-list"><div class="ref-empty">No references yet — drop an email or add a link above.</div></div>
+    <div class="ref-note-wrap">
+      <div class="ref-note-label">📝 Note to myself <span>Saved with the section</span></div>
+      <textarea class="ref-note-textarea" id="ref-note-textarea" placeholder="Write a note to yourself..." style=""></textarea>
+      <div class="ref-note-preview" id="ref-note-preview">daddy</div>
+      <div class="ref-note-footer">
+        <span class="ref-note-saved" id="ref-note-saved"></span>
+        <div style="display:flex;gap:8px;">
+          <button class="ref-note-edit" id="ref-note-edit-btn" style="display: none;" onclick="editRefNote()">✏️ Edit</button>
+          <button class="ref-note-save" id="ref-note-save-btn" onclick="saveRefNote()" style="">Save note</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -515,7 +549,7 @@
 <div class="ref-modal-bg" id="ref-modal-bg">
   <div class="ref-modal">
     <h3>📧 Email Dropped</h3>
-    <div class="ref-modal-filename" id="ref-modal-filename"></div>
+    <div class="ref-modal-filename" id="ref-modal-filename">Glassova_ Silvia sent a message.msg</div>
 
     <div class="ref-modal-section-label">Email details — for quick Outlook search</div>
     <hr class="ref-modal-divider">
@@ -534,7 +568,7 @@
     </div>
     <div>
       <label>Email body (paste from Outlook)</label>
-      <textarea id="ref-modal-folder" placeholder="Paste the email content here..." style="width:100%;background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;color:#111827;font-family:var(--font);font-size:0.85rem;padding:8px 11px;outline:none;resize:vertical;min-height:90px;line-height:1.5;transition:border-color 0.15s;" onfocus="this.style.borderColor='#5B72B0';this.style.boxShadow='0 0 0 3px rgba(91,114,176,0.15)'" onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none'"></textarea>
+      <textarea id="ref-modal-folder" placeholder="Paste the email content here..." style="width: 100%; background: rgb(249, 250, 251); border: 1px solid rgb(229, 231, 235); border-radius: 6px; color: rgb(17, 24, 39); font-family: var(--font); font-size: 0.85rem; padding: 8px 11px; outline: none; resize: vertical; min-height: 90px; line-height: 1.5; transition: border-color 0.15s; box-shadow: none;" onfocus="this.style.borderColor='#5B72B0';this.style.boxShadow='0 0 0 3px rgba(91,114,176,0.15)'" onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none'"></textarea>
     </div>
 
     <hr class="ref-modal-divider">
@@ -595,19 +629,19 @@
     <input type="text" id="sidebar-link-input" placeholder="Paste a link...">
     <button class="links-sidebar-add-btn" onclick="addSidebarLink()">+</button>
   </div>
-  <select id="sidebar-section-select" class="links-sidebar-title-text" style="width:100%;background:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:6px;color:var(--ink);font-size:0.75rem;padding:5px 8px;outline:none;cursor:pointer;"></select>
+  <select id="sidebar-section-select" class="links-sidebar-title-text" style="width:100%;background:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:6px;color:var(--ink);font-size:0.75rem;padding:5px 8px;outline:none;cursor:pointer;"><option value="">— No section —</option></select>
   <div class="links-sidebar-input-row links-sidebar-title-text" style="gap:6px;">
     <input type="text" id="sidebar-section-input" placeholder="+ New section name...">
     <button class="links-sidebar-add-btn" onclick="addSidebarSection()" title="Add section">▸</button>
   </div>
-  <div class="links-sidebar-list" id="sidebar-link-list"></div>
+  <div class="links-sidebar-list" id="sidebar-link-list"><div class="links-sidebar-empty">No links yet — paste one above.</div></div>
 </div>
 
 <div class="toast" id="toast">✓ Restored from auto-backup</div>
 
 <script>
-var INITIAL_DATA = {"today":[{"id":"mot6omge09cq","title":"","collapsed":false,"tasks":[],"importance":"none"}],"tomorrow":[{"id":"mot6n9qb1jgk","title":"","collapsed":false,"tasks":[],"importance":"none"}],"after":[{"id":"mot6nb64frzl","title":"","collapsed":false,"tasks":[],"importance":"none"}],"_ts":1778019357665};
-var INITIAL_DATA_TS = 1778019427834;
+var INITIAL_DATA = {"today":[{"id":"moyye4t1hu49","title":"","collapsed":false,"tasks":[],"importance":"none"}],"tomorrow":[{"id":"moyye68ykwub","title":"","collapsed":false,"tasks":[],"importance":"none"}],"after":[{"id":"moyye5oa32fx","title":"","collapsed":false,"tasks":[],"importance":"none"}],"_ts":1778368703880,"sidebarLinks":[],"sidebarSections":[],"_lastOpenedDate":"Sun May 10 2026"};
+var INITIAL_DATA_TS = 1778368825025;
 
 var data = { today: [], tomorrow: [], after: [] };
 var activeSubForm = null;
@@ -629,7 +663,6 @@ function autoSave() {
 function init() {
   var now = new Date();
 
-  // days counter
   // date labels
   var fmt = function(d) { return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}); };
   var d1 = new Date(now); d1.setDate(now.getDate()+1);
@@ -653,6 +686,29 @@ function init() {
     }
   } catch(e) {}
   if (!recovered) data = JSON.parse(JSON.stringify(INITIAL_DATA));
+
+  // day-roll: if last opened on a previous day, shift columns forward
+  var todayStr = now.toDateString();
+  if (data._lastOpenedDate && data._lastOpenedDate !== todayStr) {
+    var lastDate = new Date(data._lastOpenedDate);
+    var daysDiff = Math.round((now.setHours(0,0,0,0) - lastDate.setHours(0,0,0,0)) / 86400000);
+    if (daysDiff === 1) {
+      // today stays, tomorrow → appended to today, after → tomorrow, after → empty
+      data.today    = (data.today || []).concat(data.tomorrow || []);
+      data.tomorrow = data.after || [];
+      data.after    = [];
+      showToast('📅 New day! Columns rolled forward.');
+    } else if (daysDiff >= 2) {
+      // today stays, after → appended to today, rest empty
+      data.today    = (data.today || []).concat(data.tomorrow || []).concat(data.after || []);
+      data.tomorrow = [];
+      data.after    = [];
+      showToast('📅 New day! Columns rolled forward.');
+    }
+    autoSave();
+  }
+  data._lastOpenedDate = todayStr;
+  autoSave();
 
   COLS.forEach(function(col){ render(col); });
   document.getElementById('ref-link-input').addEventListener('keydown', function(e){ if (e.key==='Enter') addRefLink(); });
@@ -980,6 +1036,7 @@ function render(col) {
   statsEl.textContent = doneItems+'/'+totalItems;
   gstats.textContent = data[col].length+' section'+(data[col].length!==1?'s':'')+'  ·  '+doneItems+' of '+totalItems+' done';
   autoSave();
+  reapplyWarns(col);
 }
 
 // ── REFERENCES ────────────────────────────────────────────────────────────
@@ -993,6 +1050,28 @@ function openRefs(col, sid) {
   var titleEl = document.getElementById('ref-overlay-title');
   titleEl.innerHTML = 'References &nbsp;<span>' + (s.title || 'Untitled Section').toUpperCase() + '</span>';
   document.getElementById('ref-overlay').classList.add('open');
+  // load note
+  var ta = document.getElementById('ref-note-textarea');
+  var preview = document.getElementById('ref-note-preview');
+  var savedEl = document.getElementById('ref-note-saved');
+  var editBtn = document.getElementById('ref-note-edit-btn');
+  var saveBtn = document.getElementById('ref-note-save-btn');
+  ta.value = s.note || '';
+  savedEl.textContent = s.noteSavedAt ? 'Last saved ' + s.noteSavedAt : '';
+  if (s.note) {
+    // show preview mode
+    preview.textContent = s.note;
+    preview.classList.add('active');
+    ta.style.display = 'none';
+    editBtn.style.display = '';
+    saveBtn.style.display = 'none';
+  } else {
+    // show edit mode (empty)
+    preview.classList.remove('active');
+    ta.style.display = '';
+    editBtn.style.display = 'none';
+    saveBtn.style.display = '';
+  }
   renderRefList();
   setupRefDropzone();
 }
@@ -1000,6 +1079,39 @@ function openRefs(col, sid) {
 function closeRefs() {
   document.getElementById('ref-overlay').classList.remove('open');
   refContext = null;
+}
+
+function saveRefNote() {
+  var s = getRefSection();
+  if (!s) return;
+  var ta = document.getElementById('ref-note-textarea');
+  var preview = document.getElementById('ref-note-preview');
+  var editBtn = document.getElementById('ref-note-edit-btn');
+  var saveBtn = document.getElementById('ref-note-save-btn');
+  s.note = ta.value;
+  s.noteSavedAt = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) +
+    ' · ' + new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  document.getElementById('ref-note-saved').textContent = 'Last saved ' + s.noteSavedAt;
+  // switch to preview mode
+  preview.textContent = s.note;
+  preview.classList.add('active');
+  ta.style.display = 'none';
+  editBtn.style.display = '';
+  saveBtn.style.display = 'none';
+  autoSave();
+  showToast('✓ Note saved!');
+}
+
+function editRefNote() {
+  var ta = document.getElementById('ref-note-textarea');
+  var preview = document.getElementById('ref-note-preview');
+  var editBtn = document.getElementById('ref-note-edit-btn');
+  var saveBtn = document.getElementById('ref-note-save-btn');
+  preview.classList.remove('active');
+  ta.style.display = '';
+  editBtn.style.display = 'none';
+  saveBtn.style.display = '';
+  ta.focus();
 }
 
 function getRefSection() {
@@ -1587,7 +1699,6 @@ async function saveInPlace() {
       });
       var w = await h.createWritable();
       await w.write(content); await w.close();
-      try { localStorage.removeItem(LS_KEY); } catch(e) {}
       saved = true;
     } catch(e) {
       if (e.name === 'AbortError') return;
@@ -1607,13 +1718,15 @@ async function saveInPlace() {
 }
 
 function exportDataJson() {
-  var backup = JSON.parse(JSON.stringify(data));
-  backup._savedAt = new Date().toISOString();
-  var blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
-  var url  = URL.createObjectURL(blob);
-  var a    = document.createElement('a');
-  a.href = url; a.download = 'data.json'; a.click();
-  URL.revokeObjectURL(url);
+  setTimeout(function() {
+    var backup = JSON.parse(JSON.stringify(data));
+    backup._savedAt = new Date().toISOString();
+    var blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    a.href = url; a.download = 'data.json'; a.click();
+    URL.revokeObjectURL(url);
+  }, 400);
 }
 
 function importBackup() {
@@ -1651,6 +1764,18 @@ document.addEventListener('keydown', function(e) {
 // ── TIMER WARNING ────────────────────────────────────────────────────────
 
 var _warnedSections = {};
+var _activeWarns = {};  // key: col_sid → 10 or 5 or null
+
+function reapplyWarns(col) {
+  (data[col] || []).forEach(function(s) {
+    var level = _activeWarns[col + '_' + s.id];
+    var block = document.querySelector('#sections-' + col + ' .section-block[data-sid="' + s.id + '"]');
+    if (!block) return;
+    block.classList.remove('timer-warn-10', 'timer-warn-5');
+    if (level === 10) block.classList.add('timer-warn-10');
+    else if (level === 5) block.classList.add('timer-warn-5');
+  });
+}
 
 function checkTimers() {
   var now = new Date();
@@ -1660,62 +1785,92 @@ function checkTimers() {
     (data[col] || []).forEach(function(s) {
       var label = s.title || 'Untitled section';
 
-      // START warning: 1–10 mins before timeFrom
       if (s.timeFrom) {
         var parts = s.timeFrom.split(':');
         if (parts.length >= 2) {
           var startMins = parseInt(parts[0]) * 60 + parseInt(parts[1]);
           var diffStart = startMins - nowMins;
-          var keyStart = col + '_' + s.id + '_start_' + s.timeFrom;
-          if (diffStart >= 1 && diffStart <= 10 && !_warnedSections[keyStart]) {
-            _warnedSections[keyStart] = true;
-            triggerShake(col, s, 'start');
-            showToast('⏰ "' + label + '" starts in ' + diffStart + ' min!');
+
+          if (diffStart <= 10 && diffStart > 5) {
+            // persistently apply orange shake every tick
+            setWarnLevel(col, s, 10);
+            // toast only once
+            var key10 = col + '_' + s.id + '_10';
+            if (!_warnedSections[key10]) {
+              _warnedSections[key10] = true;
+              showToast('⏰ "' + label + '" starts in ' + diffStart + ' min!');
+            }
+          } else if (diffStart <= 5 && diffStart > 0) {
+            // persistently apply red shake every tick
+            setWarnLevel(col, s, 5);
+            // toast only once
+            var key5 = col + '_' + s.id + '_5';
+            if (!_warnedSections[key5]) {
+              _warnedSections[key5] = true;
+              showToast('🚨 "' + label + '" starts in ' + diffStart + ' min!');
+            }
+          } else if (diffStart <= 0) {
+            var keyDone = col + '_' + s.id + '_done';
+            if (!_warnedSections[keyDone]) {
+              _warnedSections[keyDone] = true;
+              if (_warnedSections[col + '_' + s.id + '_10'] || _warnedSections[col + '_' + s.id + '_5']) {
+                showToast('✅ "' + label + '" has started!');
+              }
+            }
+            clearWarn(col, s);
           }
-          if (diffStart < 0) clearShake(col, s);
         }
       }
 
-      // END warning: exactly 1–5 mins before timeTo, only if both times are set
+      // End warning (only if both times set)
       if (s.timeFrom && s.timeTo) {
         var eParts = s.timeTo.split(':');
         if (eParts.length >= 2) {
           var endMins = parseInt(eParts[0]) * 60 + parseInt(eParts[1]);
           var diffEnd = endMins - nowMins;
-          var keyEnd = col + '_' + s.id + '_end_' + s.timeTo;
-          if (diffEnd >= 1 && diffEnd <= 5 && !_warnedSections[keyEnd]) {
-            _warnedSections[keyEnd] = true;
-            triggerShake(col, s, 'end');
-            showToast('⚠️ "' + label + '" ends in ' + diffEnd + ' min!');
+
+          if (diffEnd <= 5 && diffEnd > 0) {
+            setWarnLevel(col, s, 5);
+            var keyE5 = col + '_' + s.id + '_end5';
+            if (!_warnedSections[keyE5]) {
+              _warnedSections[keyE5] = true;
+              showToast('⚠️ "' + label + '" ends in ' + diffEnd + ' min!');
+            }
+          } else if (diffEnd <= 0) {
+            var keyEDone = col + '_' + s.id + '_enddone';
+            if (!_warnedSections[keyEDone]) {
+              _warnedSections[keyEDone] = true;
+              if (_warnedSections[col + '_' + s.id + '_end5']) showToast('🏁 "' + label + '" has ended!');
+            }
+            clearWarn(col, s);
           }
-          if (diffEnd < 0) clearShake(col, s);
         }
       }
     });
   });
 }
 
-function triggerShake(col, s) {
+function setWarnLevel(col, s, level) {
+  _activeWarns[col + '_' + s.id] = level;
   var block = document.querySelector('#sections-' + col + ' .section-block[data-sid="' + s.id + '"]');
   if (!block) return;
-  block.classList.add('timer-warning');
-  var shakeCount = 0;
-  var iv = setInterval(function() {
-    block.classList.remove('timer-warning');
-    void block.offsetWidth;
-    block.classList.add('timer-warning');
-    if (++shakeCount >= 7) clearInterval(iv);
-  }, 8000);
+  block.classList.remove('timer-warn-10', 'timer-warn-5');
+  block.classList.add(level <= 5 ? 'timer-warn-5' : 'timer-warn-10');
 }
 
-function clearShake(col, s) {
+function clearWarn(col, s) {
+  _activeWarns[col + '_' + s.id] = null;
   var block = document.querySelector('#sections-' + col + ' .section-block[data-sid="' + s.id + '"]');
-  if (block) block.classList.remove('timer-warning');
+  if (block) block.classList.remove('timer-warn-10', 'timer-warn-5');
 }
 
-setInterval(checkTimers, 60000);
+function triggerShake(col, s) { setWarnLevel(col, s, 10); }
+function clearShake(col, s)   { clearWarn(col, s); }
+
+setInterval(checkTimers, 10000);
 
 init();
+checkTimers();
 </script>
 
 
