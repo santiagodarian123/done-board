@@ -1037,6 +1037,8 @@ function render(col) {
   gstats.textContent = data[col].length+' section'+(data[col].length!==1?'s':'')+'  ·  '+doneItems+' of '+totalItems+' done';
   autoSave();
   reapplyWarns(col);
+  var sb = document.getElementById('search-sidebar');
+  if (sb && !sb.classList.contains('collapsed')) { runSearch(); renderOverduePane(); }
 }
 
 // ── REFERENCES ────────────────────────────────────────────────────────────
@@ -1161,7 +1163,11 @@ function renderRefList() {
     if (ref.received) {
       var recv = document.createElement('div');
       recv.className = 'ref-item-received';
-      recv.textContent = '📅 Received: ' + ref.received;
+      var displayDate = ref.received;
+      if (/^\d{4}-\d{2}-\d{2}$/.test(ref.received)) {
+        displayDate = new Date(ref.received + 'T00:00:00').toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+      }
+      recv.textContent = '📅 Received: ' + displayDate;
       body.appendChild(recv);
     }
 
@@ -1191,7 +1197,7 @@ function renderRefList() {
       body.appendChild(a);
     }
 
-    if (ref.type !== 'link') {
+    if (ref.type !== 'link' || ref.received) {
       var status = ref.status || 'pending';
       var badge = document.createElement('span');
       badge.className = 'ref-status ' + status;
@@ -1330,8 +1336,9 @@ function confirmRefModal() {
   var status   = document.getElementById('ref-modal-status').value;
 
   if (received) {
+    // store as ISO yyyy-mm-dd for reliable parsing
     var d = new Date(received + 'T00:00:00');
-    received = d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+    received = d.toISOString().slice(0, 10);
   }
 
   var s = getRefSection();
@@ -1365,8 +1372,7 @@ function addRefLink() {
   var rawDate = dateInp ? dateInp.value : '';
   var received = '';
   if (rawDate) {
-    var d = new Date(rawDate + 'T00:00:00');
-    received = d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+    received = rawDate; // store as ISO yyyy-mm-dd for reliable parsing
   }
   s.refs.push({ type:'link', name: url.replace(/^https?:\/\/(www\.)?/,'').split('/')[0], url: url,
     received: received, status: received ? 'pending' : '',
@@ -1436,20 +1442,23 @@ function toggleSearchSidebar() {
 
 function getDaysDiff(dateStr) {
   if (!dateStr) return null;
-  var d = new Date(dateStr);
-  if (isNaN(d)) {
-    // try parsing "May 6, 2026" format
+  var d;
+  // ISO format yyyy-mm-dd
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+    d = new Date(dateStr + 'T00:00:00');
+  } else {
     d = new Date(Date.parse(dateStr));
   }
   if (isNaN(d)) return null;
-  return Math.floor((Date.now() - d.getTime()) / 86400000);
+  var today = new Date(); today.setHours(0,0,0,0);
+  return Math.floor((today.getTime() - d.getTime()) / 86400000);
 }
 
 function isOverdue(ref) {
   if (ref.status !== 'pending') return false;
   if (!ref.received) return false;
   var days = getDaysDiff(ref.received);
-  return days !== null && days >= 5;
+  return days !== null && days >= 3;
 }
 
 function runSearch() {
@@ -1464,7 +1473,8 @@ function runSearch() {
         var subject = (ref.subject || ref.name || '').toLowerCase();
         var sender  = (ref.sender || '').toLowerCase();
         var note    = (ref.note || '').toLowerCase();
-        if (!q || subject.includes(q) || sender.includes(q) || note.includes(q)) {
+        var url     = (ref.url || '').toLowerCase();
+        if (!q || subject.includes(q) || sender.includes(q) || note.includes(q) || url.includes(q)) {
           normal.push({ ref: ref, section: s, col: col });
         }
       });
@@ -1474,7 +1484,7 @@ function runSearch() {
   if (!normal.length) {
     var empty = document.createElement('div');
     empty.className = 'search-empty';
-    empty.textContent = q ? 'No results found.' : 'No emails yet.';
+    empty.textContent = q ? 'No results found.' : 'No references yet.';
     resultsEl.appendChild(empty);
   } else {
     normal.forEach(function(r){ resultsEl.appendChild(makeResultItem(r)); });
