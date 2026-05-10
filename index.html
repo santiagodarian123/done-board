@@ -1,7 +1,8 @@
 <html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>To-Do Board</title>
+<title>3 Days TO-DO Board</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✅</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Special+Elite&amp;display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -638,6 +639,18 @@
 </div>
 
 <div class="toast" id="toast">✓ Restored from auto-backup</div>
+
+<!-- MOBILE WARNING POPUP -->
+<div id="mobile-warning-bg" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:14px;padding:32px 28px;max-width:380px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,0.2);display:flex;flex-direction:column;gap:16px;text-align:center;">
+    <div style="font-size:2.2rem;">💻</div>
+    <div style="font-size:1rem;font-weight:700;color:#151F45;">Laptop view recommended</div>
+    <div style="font-size:0.85rem;color:#6b7280;line-height:1.6;">This application is designed for laptop and desktop screens. If you are on mobile, please copy the link below and open it on your laptop.</div>
+    <div style="background:#f3f4f6;border-radius:8px;padding:10px 12px;font-size:0.75rem;color:#374151;word-break:break-all;cursor:pointer;border:1px solid #e5e7eb;" id="mobile-warning-url" onclick="copyMobileUrl()"></div>
+    <div style="font-size:0.7rem;color:#9ca3af;font-style:italic;" id="mobile-copy-hint">Tap to copy link</div>
+    <button onclick="closeMobileWarning()" style="background:#5B72B0;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:0.85rem;font-weight:600;cursor:pointer;margin-top:4px;">Got it, continue anyway</button>
+  </div>
+</div>
 
 <script>
 var INITIAL_DATA = {"today":[{"id":"moyye4t1hu49","title":"","collapsed":false,"tasks":[],"importance":"none"}],"tomorrow":[{"id":"moyye68ykwub","title":"","collapsed":false,"tasks":[],"importance":"none"}],"after":[{"id":"moyye5oa32fx","title":"","collapsed":false,"tasks":[],"importance":"none"}],"_ts":1778368703880,"sidebarLinks":[],"sidebarSections":[],"_lastOpenedDate":"Sun May 10 2026"};
@@ -1881,6 +1894,37 @@ setInterval(checkTimers, 10000);
 
 init();
 checkTimers();
+
+// ── MOBILE WARNING ───────────────────────────────────────────────────────
+(function() {
+  if (localStorage.getItem('mobile_warning_seen')) return;
+  var isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if (!isMobile) return;
+  var bg = document.getElementById('mobile-warning-bg');
+  var urlEl = document.getElementById('mobile-warning-url');
+  bg.style.display = 'flex';
+  urlEl.textContent = window.location.href;
+})();
+
+function closeMobileWarning() {
+  localStorage.setItem('mobile_warning_seen', '1');
+  document.getElementById('mobile-warning-bg').style.display = 'none';
+}
+
+function copyMobileUrl() {
+  var url = window.location.href;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(function() {
+      document.getElementById('mobile-copy-hint').textContent = '✓ Copied!';
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = url; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    document.getElementById('mobile-copy-hint').textContent = '✓ Copied!';
+  }
+}
 </script>
 
 
